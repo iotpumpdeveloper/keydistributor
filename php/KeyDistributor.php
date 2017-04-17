@@ -34,7 +34,8 @@ class KeyDistributor
 
   public function getNodeIndexForKey($key)
   {
-    return $this->_getNodeIndexForKey($key, $this->numOfNodes);
+    $index = $this->_getNodeIndexForKey($key, $this->numOfNodes);
+    return $index;
   }
 
   public function getNodeForKey($key)
