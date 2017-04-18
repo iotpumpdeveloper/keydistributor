@@ -1,13 +1,14 @@
 <?php
 namespace KeyDistributor;
 
-class WeightedKeyDistributor extends KeyDistributor 
+class WeightedNodeMap 
 {
   private $nodeIndexSearchAlgorithm = "";
 
   public function __construct($nodes)
   {
     $this->nodes = $nodes;
+    $this->distributor = new KeyDistributor();
   }
 
   public function setNodeIndexSearchAlgorithm($algorithmName)
@@ -21,20 +22,24 @@ class WeightedKeyDistributor extends KeyDistributor
     if ($this->nodeIndexSearchAlgorithm == "BinarySearch") {
       $numOfNodes = count($this->nodes);
 
+      $nodesArr = array();
+
       if (!isset($this->algorithmPreparationDone) ) {
         $this->algorithmPreparationDone = true;
         
         $maxIndex = 0;
-        for ($i = 0; $i < $numOfNodes; $i++) {
-          $maxIndex += $this->nodes[$i]['weight'] - 1; 
-          $this->nodes[$i]['max_index'] = $maxIndex;
-          $this->nodes[$i]['min_index'] = $maxIndex - $this->nodes[$i]['weight'] + 1;
+        foreach($this->nodes as $name => $node) {
+          $maxIndex += $node['weight'] - 1;
+          $node['name'] = $name; 
+          $node['max_index'] = $maxIndex;
+          $node['min_index'] = $maxIndex - $node['weight'] + 1;
+          $nodesArr[] = $node;
         }
 
-        $this->setNumOfNodes($maxIndex);
+        $this->distributor->setNumOfNodes($maxIndex);
       }
 
-      $virtualIndex = $this->getNodeIndexForKey($key);
+      $virtualIndex = $this->distributor->getNodeIndexForKey($key);
 
       //now start binary search 
       $left = 0;
@@ -45,13 +50,13 @@ class WeightedKeyDistributor extends KeyDistributor
         $realIndex = (int)(($left + $right)/2);
         $searchCounter ++;
         if ( 
-          ($virtualIndex <= $this->nodes[$realIndex]['max_index'] && $virtualIndex >= $this->nodes[$realIndex]['min_index']) 
+          ($virtualIndex <= $nodesArr[$realIndex]['max_index'] && $virtualIndex >= $nodesArr[$realIndex]['min_index']) 
         ) {
-          return $this->nodes[$realIndex]['name']; 
+          return $nodesArr[$realIndex]['name']; 
           break;
-        }  else if ($virtualIndex > $this->nodes[$realIndex]['max_index']) {
+        }  else if ($virtualIndex > $nodesArr[$realIndex]['max_index']) {
           $left = (int) (($left + $right) / 2);
-        } else if ($virtualIndex < $this->nodes[$realIndex]['min_index']) {
+        } else if ($virtualIndex < $nodesArr[$realIndex]['min_index']) {
           $right = (int) (($right + $left) / 2);
         } 
       }
@@ -60,14 +65,14 @@ class WeightedKeyDistributor extends KeyDistributor
       $actualNodes = array();
       if (!isset($this->algorithmPreparationDone)) {
         $this->algorithmPreparationDone = true;
-        foreach($this->nodes as $node) {
-          $arr = array_fill(0, $node['weight'], $node['name']);
+        foreach($this->nodes as $name => $node) {
+          $arr = array_fill(0, $node['weight'], $name);
           $actualNodes = array_merge($actualNodes, $arr);
         }
-        $this->setNumOfNodes(count($actualNodes));
+        $this->distributor->setNumOfNodes(count($actualNodes));
       }  
-      $index = $this->getNodeIndexForKey($key);
-      return $actualNodes[$index];
+      $virtualIndex = $this->distributor->getNodeIndexForKey($key);
+      return $actualNodes[$virtualIndex];
     }
 
   }
