@@ -8,7 +8,6 @@ class WeightedNodeMap
   public function __construct($nodeMap)
   {
     $this->nodeMap = $nodeMap;
-    $this->distributor = new KeyDistributor();
   }
 
   public function setNodeSearchAlgorithm($algorithmName)
