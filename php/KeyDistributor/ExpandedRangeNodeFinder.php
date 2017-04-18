@@ -16,7 +16,7 @@ class ExpandedRangeNodeFinder
       $arr = array_fill(0, $node['weight'], $name);
       $actualNodes = array_merge($actualNodes, $arr);
     }
-   
+
     $distributor->setNumOfNodes(count($actualNodes));
     self::$distributor = $distributor;
     self::$nodes = $actualNodes;

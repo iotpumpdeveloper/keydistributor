@@ -14,16 +14,18 @@ class BinarySearchNodeFinder
     $distributor = new KeyDistributor();
     $nodes = array();
 
-    $maxIndex = 0;
+    $curMinIndex = 0;
+    $numOfNodes = 0;
     foreach(self::$nodeMap as $name => $node) {
-      $maxIndex += $node['weight'] - 1;
+      $numOfNodes += $node['weight'];
       $node['name'] = $name; 
-      $node['max_index'] = $maxIndex;
-      $node['min_index'] = $maxIndex - $node['weight'] + 1;
+      $node['max_index'] = $curMinIndex + $node['weight'] - 1;
+      $node['min_index'] = $curMinIndex;
       $nodes[] = $node;
+      $curMinIndex += $node['weight'];       
     }
 
-    $distributor->setNumOfNodes($maxIndex);
+    $distributor->setNumOfNodes($numOfNodes);
 
     self::$distributor = $distributor;
     self::$nodes = $nodes;
@@ -34,7 +36,6 @@ class BinarySearchNodeFinder
     $numOfNodes = count(self::$nodeMap);
 
     $virtualIndex = self::$distributor->getNodeIndexForKey($key);
-
     //now start binary search 
     $left = 0;
     $right = $numOfNodes;

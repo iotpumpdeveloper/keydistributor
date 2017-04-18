@@ -4,17 +4,9 @@ Namespace KeyDistributor;
 class KeyDistributor
 {
 
-  private const NUM_OF_SLOTS = 4294967296; //2^32
+  private const NUM_OF_SLOTS = 4294967296; //2^16
 
   private $numOfNodes;
-
-  private function _getNodeIndexForKey($key, $numOfNodes)
-  {
-    $slotsPerNode = (int)(self::NUM_OF_SLOTS / $numOfNodes);
-    $slot = $this->getSlotForKey($key);
-    $index = (int) ($slot / $slotsPerNode);
-    return $index;
-  }
 
   public function __construct()
   {
@@ -31,15 +23,11 @@ class KeyDistributor
     return $this->numOfNodes;
   }
 
-  public function getSlotForKey($key)
-  {
-    $slot = crc32($key) % self::NUM_OF_SLOTS;
-    return $slot; 
-  }
-
   public function getNodeIndexForKey($key)
   {
-    $index = $this->_getNodeIndexForKey($key, $this->numOfNodes);
+    $slotsPerNode = (int)(self::NUM_OF_SLOTS / $this->numOfNodes);
+    $slot = crc32($key) % self::NUM_OF_SLOTS;
+    $index = (int) ($slot / $slotsPerNode);
     return $index;
   }
 
