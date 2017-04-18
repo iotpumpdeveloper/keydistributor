@@ -11,15 +11,15 @@ class WeightedNodeMap
     $this->distributor = new KeyDistributor();
   }
 
-  public function setNodeIndexSearchAlgorithm($algorithmName)
+  public function setNodeSearchAlgorithm($algorithmName)
   {
-    $this->nodeIndexSearchAlgorithm = $algorithmName;
+    $this->nodeSearchAlgorithm = $algorithmName;
     unset($this->algorithmPreparationDone);
   }
 
   public function getNodeForKey($key)
   {
-    if ($this->nodeIndexSearchAlgorithm == "BinarySearch") {
+    if ($this->nodeSearchAlgorithm == "BinarySearch") {
       $numOfNodes = count($this->nodes);
 
       $nodesArr = array();
