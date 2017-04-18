@@ -1,6 +1,6 @@
 <?php
 spl_autoload_register(function($class) {
-  require ('./'.str_replace('\\','/',$class).'.php');
+  require (__DIR__.'/../'.str_replace('\\','/',$class).'.php');
 });
 
 $key = 'player_id_'.uuid_create();
