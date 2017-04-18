@@ -13,6 +13,7 @@ class WeightedKeyDistributor extends KeyDistributor
   public function setNodeIndexSearchAlgorithm($algorithmName)
   {
     $this->nodeIndexSearchAlgorithm = $algorithmName;
+    unset($this->algorithmPreparationDone);
   }
 
   public function getNodeForKey($key)
@@ -35,49 +36,38 @@ class WeightedKeyDistributor extends KeyDistributor
 
       $virtualIndex = $this->getNodeIndexForKey($key);
 
-      print $virtualIndex."\n";
       //now start binary search 
       $left = 0;
       $right = $numOfNodes;
 
-      $realIndex = 0;
-
+      $searchCounter = 0;
       while(true) {
+        $realIndex = (int)(($left + $right)/2);
+        $searchCounter ++;
         if ( 
           ($virtualIndex <= $this->nodes[$realIndex]['max_index'] && $virtualIndex >= $this->nodes[$realIndex]['min_index']) 
         ) {
-          print_r($this->nodes[$realIndex]); 
+          return $this->nodes[$realIndex]['name']; 
           break;
         }  else if ($virtualIndex > $this->nodes[$realIndex]['max_index']) {
-          $realIndex = (int) (($realIndex + $right) / 2);
-          print "case 1\n";
-          print "virtualIndex:".$virtualIndex."\n";
-          print_r($this->nodes[$realIndex])."\n";
-          print $realIndex."---\n";
+          $left = (int) (($left + $right) / 2);
         } else if ($virtualIndex < $this->nodes[$realIndex]['min_index']) {
-          print "case 2\n";
-          print "virtualIndex:".$virtualIndex."\n";
-          print_r($this->nodes[$realIndex])."\n";
-          print $realIndex."---\n";
-          $realIndex = (int) (($realIndex + $left) / 2);
+          $right = (int) (($right + $left) / 2);
         } 
       }
 
     } else {
+      $actualNodes = array();
       if (!isset($this->algorithmPreparationDone)) {
         $this->algorithmPreparationDone = true;
-        
-        $actualNodes = array();
         foreach($this->nodes as $node) {
           $arr = array_fill(0, $node['weight'], $node['name']);
           $actualNodes = array_merge($actualNodes, $arr);
         }
-        $this->setNumOfNodes(count($this->actualNodes));
-      } 
-
+        $this->setNumOfNodes(count($actualNodes));
+      }  
       $index = $this->getNodeIndexForKey($key);
       return $actualNodes[$index];
-
     }
 
   }
