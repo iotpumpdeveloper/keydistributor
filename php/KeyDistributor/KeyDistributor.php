@@ -43,12 +43,4 @@ class KeyDistributor
     return $index;
   }
 
-  public function getMigrationPathForKey($key)
-  {
-    $indexes = array();
-    for ($i = 1; $i <= $this->numOfNodes; $i++) {
-      $indexes[] = $this->_getNodeIndexForKey($key, $i); 
-    }
-    return implode(".", $indexes);
-  }
 }
