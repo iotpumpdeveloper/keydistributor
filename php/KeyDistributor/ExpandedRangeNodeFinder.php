@@ -13,8 +13,9 @@ class ExpandedRangeNodeFinder
     $distributor = new KeyDistributor();
     $actualNodes = array();
     foreach(self::$nodeMap as $name => $node) {
-      $arr = array_fill(0, $node['weight'], $name);
-      $actualNodes = array_merge($actualNodes, $arr);
+      for ($i = 0; $i < $node['weight']; $i++) {
+        $actualNodes[] = $name;
+      }
     }
 
     $distributor->setNumOfNodes(count($actualNodes));

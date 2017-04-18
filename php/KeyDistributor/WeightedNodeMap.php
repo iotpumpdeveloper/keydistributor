@@ -3,11 +3,10 @@ namespace KeyDistributor;
 
 class WeightedNodeMap 
 {
-  private $finderClass = "ExpandedRangeNodeFinder";
-
   public function __construct($nodeMap)
   {
     $this->nodeMap = $nodeMap;
+    $this->setNodeSearchAlgorithm("ExpandedRange"); 
   }
 
   public function setNodeSearchAlgorithm($algorithmName)

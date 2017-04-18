@@ -15,8 +15,13 @@ for ($i = 1; $i <= 1000; $i++) {
 }
 
 $map = new KeyDistributor\WeightedNodeMap($nodeMap);
-$map->setNodeSearchAlgorithm("BinarySearch");
 
+$map->setNodeSearchAlgorithm("BinarySearch");
+$time_start = microtime(true); 
 echo $map->getNodeForKey($key)."\n";
+echo 'Total execution time in seconds: ' . (microtime(true) - $time_start)."\n";
 $map->setNodeSearchAlgorithm("ExpandedRange");
+
+$time_start = microtime(true); 
 echo $map->getNodeForKey($key)."\n";
+echo 'Total execution time in seconds: ' . (microtime(true) - $time_start)."\n";
