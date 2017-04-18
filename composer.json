@@ -1,0 +1,26 @@
+{
+  "name": "keydistributor",
+  "description": "A key distribution library for distributing keys to a server",
+  "keywords": ["distribution", "hashing", "scalability"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Zike Huang",
+      "email": "iotpump.developer@gmail.com",
+      "role": "Founder and Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.0"
+  },
+  "autoload": {
+    "psr-0": {
+      "KeyDistributor": "php"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.0-dev"
+    }
+  }
+}
