@@ -6,17 +6,17 @@ spl_autoload_register(function($class) {
 $key = 'player_id_'.uuid_create();
 
 //we use server memory as the weight, for example: 1GB is 1, 4GB is 4, 8GB is 8... etc
-$nodes = array(
-  's1' => array('weight' => 32),
-  's2' => array('weight' => 32),
-  's3' => array('weight' => 32),
-  's4' => array('weight' => 32),
-);
 
-$map = new KeyDistributor\WeightedNodeMap($nodes);
+$nodeMap = array();
+
+for ($i = 1; $i <= 1000; $i++) {
+  $name = 's'.$i;
+  $nodeMap[$name] = array('weight' => 32);
+}
+
+$map = new KeyDistributor\WeightedNodeMap($nodeMap);
 $map->setNodeSearchAlgorithm("BinarySearch");
 
 echo $map->getNodeForKey($key)."\n";
-$map->setNodeSearchAlgorithm("");
-
+$map->setNodeSearchAlgorithm("ExpandedRange");
 echo $map->getNodeForKey($key)."\n";
