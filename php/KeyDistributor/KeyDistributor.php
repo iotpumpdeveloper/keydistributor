@@ -23,6 +23,11 @@ class KeyDistributor
         return $this->numOfNodes;
     }
 
+    public function getNumOfSlots()
+    {
+        return self::NUM_OF_SLOTS;
+    }
+
     public function getSlotForKey($key)
     {
         $slot = crc32($key) % self::NUM_OF_SLOTS; 
