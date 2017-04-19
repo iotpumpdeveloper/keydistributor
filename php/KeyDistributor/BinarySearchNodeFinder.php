@@ -34,7 +34,7 @@ class BinarySearchNodeFinder
     public static function findNodeForKey($key) 
     {
         $slot = self::$distributor->getSlotForKey($key);
-        return $this->findNodeForSlot($slot); 
+        return self::findNodeForSlot($slot); 
     }
 
     public static function findNodeForSlot($slot)
