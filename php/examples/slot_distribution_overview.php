@@ -10,8 +10,9 @@ for ($i = 0; $i < NUM_OF_USERS; $i++) {
     $playerId = 'pid_'.uuid_create();
     $slot = $kd->getSlotForKey($playerId);
     if ( !isset($slotCounters[$slot]) ) {
-        $slotCounters[$slot] ++;
+        $slotCounters[$slot] = 0;
     }
+    $slotCounters[$slot] ++;
 }
 
 foreach($slotCounters as $slot => $counter) {
