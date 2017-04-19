@@ -17,7 +17,7 @@ $nodeMap_2 = array(
   's4' => array('weight' => 64)
 );
 
-$slot = rand(0,65535);
+$slot = rand(0,16383);
 
 $map = new KeyDistributor\WeightedNodeMap($nodeMap_1);
 echo "before migration, slot $slot is at server: ".$map->getNodeForSlot($slot)."\n";

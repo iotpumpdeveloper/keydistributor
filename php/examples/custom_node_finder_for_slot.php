@@ -3,7 +3,7 @@ spl_autoload_register(function($class) {
   require (__DIR__.'/../'.str_replace('\\','/',$class).'.php');
 });
 
-$slot = rand(0,65535);
+$slot = rand(0,16383);
 echo "slot: ".$slot."\n";
 //we use server memory as the weight, for example: 1GB is 1, 4GB is 4, 8GB is 8... etc
 

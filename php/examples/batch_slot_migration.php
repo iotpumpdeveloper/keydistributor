@@ -18,7 +18,7 @@ $nodeMap_2 = array(
 );
 
 $numOfSlotsToMigrate = 0;
-for ($slot = 0; $slot < 65536; $slot ++) {
+for ($slot = 0; $slot < 16383; $slot ++) {
     $map = new KeyDistributor\WeightedNodeMap($nodeMap_1);
     $startingNode = $map->getNodeForSlot($slot);
     $map = new KeyDistributor\WeightedNodeMap($nodeMap_2);

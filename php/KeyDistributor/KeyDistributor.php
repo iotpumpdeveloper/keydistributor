@@ -4,7 +4,7 @@ Namespace KeyDistributor;
 class KeyDistributor
 {
 
-    private const NUM_OF_SLOTS = 65536; //2^16
+    private const NUM_OF_SLOTS = 16384; //2^14
 
     private $numOfNodes;
 
