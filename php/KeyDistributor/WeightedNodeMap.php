@@ -20,4 +20,10 @@ class WeightedNodeMap
     $finderClass = $this->finderClass;
     return $finderClass::findNodeForKey($key);
   }
+
+  public function getNodeForSlot($slot)
+  {
+      $finderClass = $this->finderClass;
+      return $finderClass::findNodeForSlot($slot);
+  }
 }
