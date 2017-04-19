@@ -17,10 +17,9 @@ $nodeMap_2 = array(
     's4' => array('weight' => 64)
 );
 
-for ($slot = 0; $slot <= 65535; $slot ++) {
-    $map = new KeyDistributor\WeightedNodeMap($nodeMap_1);
-    $startingNode = $map->getNodeForSlot($slot);
-    $map = new KeyDistributor\WeightedNodeMap($nodeMap_2);
-    $endingNode = $map->getNodeForSlot($slot);
-    print "slot: $slot migration: ".$startingNode."==>".$endingNode."\n";
-}
+$slot = 65535;
+$map = new KeyDistributor\WeightedNodeMap($nodeMap_1);
+$startingNode = $map->getNodeForSlot($slot);
+$map = new KeyDistributor\WeightedNodeMap($nodeMap_2);
+$endingNode = $map->getNodeForSlot($slot);
+print "slot: $slot migration: ".$startingNode."==>".$endingNode."\n";
