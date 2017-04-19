@@ -31,8 +31,7 @@ class KeyDistributor
 
     public function getNodeIndexForSlot($slot)
     {
-        $slotsPerNode = (int)(self::NUM_OF_SLOTS / $this->numOfNodes);
-        $index = (int) ($slot / $slotsPerNode);
+        $index = $slot % $this->numOfNodes;
         return $index;
     }
 
@@ -40,8 +39,7 @@ class KeyDistributor
     {
         $slotsPerNode = (int)(self::NUM_OF_SLOTS / $this->numOfNodes);
         $slot = $this->getSlotForKey($key);
-        $index = (int) ($slot / $slotsPerNode);
-        return $index;
+        return $this->getNodeIndexForSlot($slot);
     }
 
 }
