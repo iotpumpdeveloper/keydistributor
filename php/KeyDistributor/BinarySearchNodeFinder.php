@@ -1,17 +1,13 @@
 <?php
 Namespace KeyDistributor;
 
-class BinarySearchNodeFinder
+class BinarySearchNodeFinder extends NodeFinder
 {
-    private static $nodeMap;
-    private static $distributor;
-    private static $nodes;
-
     public static function setNodeMap($nodeMap)
     {
         self::$nodeMap = $nodeMap; 
 
-        $distributor = new KeyDistributor();
+        self::$distributor = new KeyDistributor();
         $nodes = array();
 
         $curMinIndex = 0;
@@ -25,17 +21,10 @@ class BinarySearchNodeFinder
             $curMinIndex += $node['weight'];       
         }
 
-        $distributor->setNumOfNodes($numOfNodes);
-
-        self::$distributor = $distributor;
+        self::$distributor->setNumOfNodes($numOfNodes);
         self::$nodes = $nodes;
     }
-
-    public static function syncSlotWithNodes()
-    {
-        self::$distributor->setNumOfSlots(count(self::$nodes));
-    }
-
+ 
     public static function findNodeForKey($key) 
     {
         $slot = self::$distributor->getSlotForKey($key);

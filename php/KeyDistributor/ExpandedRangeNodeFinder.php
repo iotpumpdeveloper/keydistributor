@@ -1,16 +1,12 @@
 <?php 
 namespace KeyDistributor;
 
-class ExpandedRangeNodeFinder
+class ExpandedRangeNodeFinder extends NodeFinder
 {
-    private static $nodeMap;
-    private static $distributor;
-    private static $nodes;
-
     public static function setNodeMap($nodeMap)
     {
         self::$nodeMap = $nodeMap;
-        $distributor = new KeyDistributor();
+        self::$distributor = new KeyDistributor();
         $actualNodes = array();
         foreach(self::$nodeMap as $name => $node) {
             for ($i = 0; $i < $node['weight']; $i++) {
@@ -18,14 +14,8 @@ class ExpandedRangeNodeFinder
             }
         }
 
-        $distributor->setNumOfNodes(count($actualNodes));
-        self::$distributor = $distributor;
+        self::$distributor->setNumOfNodes(count($actualNodes));
         self::$nodes = $actualNodes;
-    }
-
-    public static function syncSlotWithNodes()
-    {
-        self::$distributor->setNumOfSlots(count(self::$nodes));
     }
 
     public static function findNodeForKey($key)
