@@ -4,23 +4,26 @@ spl_autoload_register(function($class) {
 });
 
 //first node map
-$nodeMap_1 = array(
-  's1' => array('weight' => 4),
-  's2' => array('weight' => 16),
-  's3' => array('weight' => 32)
-);
+$nodeMap_1 = [];
+for ($i = 1; $i <= 64; $i++) {
+    $weight = rand(1,4);
+    $nodeMap_1["s$i"] = ['weight' => $weight];
+}
 
-//second node map, we remove s1, and add a new server s4
-$nodeMap_2 = array(
-  's2' => array('weight' => 16),
-  's3' => array('weight' => 32),
-  's4' => array('weight' => 64)
-);
+//second node map
+$nodeMap_2 = [];
+for ($i = 1; $i <= 32; $i++) {
+    $nodeMap_2["s$i"] = $nodeMap_1["s$i"]; 
+}
 
 $key = 'player_id_'.uuid_create();
 
+$time_start = microtime(true); 
 $map = new KeyDistributor\WeightedNodeMap($nodeMap_1);
-echo "before migration, key is at server: ".$map->getNodeForKey($key)."\n";
+$fromNode = $map->getNodeForKey($key);
 
 $map = new KeyDistributor\WeightedNodeMap($nodeMap_2);
-echo "after migration, key will be at server: ".$map->getNodeForKey($key)."\n";
+$toNode = $map->getNodeForKey($key);
+
+echo $fromNode.':'.$toNode."\n";
+echo 'Total execution time in seconds: ' . (microtime(true) - $time_start)."\n";

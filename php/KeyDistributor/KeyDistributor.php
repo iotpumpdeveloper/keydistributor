@@ -7,10 +7,22 @@ class KeyDistributor
     private const NUM_OF_SLOTS = 16384; //2^14
 
     private $numOfNodes;
+    private $numOfSlots;
 
     public function __construct()
     {
         $this->numOfNodes = 0;
+        $this->numOfSlots = self::NUM_OF_SLOTS;
+    }
+
+    public function setNumOfSlots($numOfSlots)
+    {
+        $this->numOfSlots = $numOfSlots;
+    }
+
+    public function getNumOfSlots()
+    {
+        return $this->getNumOfSlots;
     }
 
     public function setNumOfNodes($numOfNodes)
@@ -23,14 +35,9 @@ class KeyDistributor
         return $this->numOfNodes;
     }
 
-    public function getNumOfSlots()
-    {
-        return self::NUM_OF_SLOTS;
-    }
-
     public function getSlotForKey($key)
     {
-        $slot = crc32($key) % self::NUM_OF_SLOTS; 
+        $slot = crc32($key) % $this->numOfSlots; 
         return $slot;
     }
 
@@ -42,7 +49,6 @@ class KeyDistributor
 
     public function getNodeIndexForKey($key)
     {
-        $slotsPerNode = (int)(self::NUM_OF_SLOTS / $this->numOfNodes);
         $slot = $this->getSlotForKey($key);
         return $this->getNodeIndexForSlot($slot);
     }
