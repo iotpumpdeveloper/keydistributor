@@ -31,6 +31,11 @@ class BinarySearchNodeFinder
         self::$nodes = $nodes;
     }
 
+    public static function syncSlotWithNodes()
+    {
+        self::$distributor->setNumOfSlots(count(self::$nodes));
+    }
+
     public static function findNodeForKey($key) 
     {
         $slot = self::$distributor->getSlotForKey($key);

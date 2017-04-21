@@ -23,6 +23,11 @@ class ExpandedRangeNodeFinder
         self::$nodes = $actualNodes;
     }
 
+    public static function syncSlotWithNodes()
+    {
+        self::$distributor->setNumOfSlots(count(self::$nodes));
+    }
+
     public static function findNodeForKey($key)
     {
         $virtualIndex = self::$distributor->getNodeIndexForKey($key);

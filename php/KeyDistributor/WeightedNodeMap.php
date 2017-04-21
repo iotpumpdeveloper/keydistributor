@@ -3,27 +3,36 @@ namespace KeyDistributor;
 
 class WeightedNodeMap 
 {
-  public function __construct($nodeMap)
-  {
-    $this->nodeMap = $nodeMap;
-    $this->setNodeSearchAlgorithm("ExpandedRange"); 
-  }
+    private $finderClass;
 
-  public function setNodeSearchAlgorithm($algorithmName)
-  {
-    $finderClass = $this->finderClass = __namespace__.'\\'.$algorithmName.'NodeFinder';
-    $finderClass::setNodeMap($this->nodeMap); 
-  }
+    public function __construct($nodeMap)
+    {
+        $this->nodeMap = $nodeMap;
+        $this->setNodeSearchAlgorithm("ExpandedRange"); 
+    }
 
-  public function getNodeForKey($key)
-  {
-    $finderClass = $this->finderClass;
-    return $finderClass::findNodeForKey($key);
-  }
+    public function setNodeSearchAlgorithm($algorithmName)
+    {
+        $finderClass = $this->finderClass = __namespace__.'\\'.$algorithmName.'NodeFinder';
+        $finderClass::setNodeMap($this->nodeMap); 
+        $this->finderClass = $finderClass;
+    }
 
-  public function getNodeForSlot($slot)
-  {
-      $finderClass = $this->finderClass;
-      return $finderClass::findNodeForSlot($slot);
-  }
+    public function syncSlotWithNodes()
+    {
+        $finderClass = $this->finderClass;
+        $finderClass::syncSlotWithNodes();
+    }
+
+    public function getNodeForKey($key)
+    {
+        $finderClass = $this->finderClass;
+        return $finderClass::findNodeForKey($key);
+    }
+
+    public function getNodeForSlot($slot)
+    {
+        $finderClass = $this->finderClass;
+        return $finderClass::findNodeForSlot($slot);
+    }
 }
