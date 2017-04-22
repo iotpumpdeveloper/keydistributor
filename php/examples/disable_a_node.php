@@ -16,8 +16,10 @@ $nodeMap1 = [
 //now remove s2  
 $nodeMap2 = [
     's1' => ['weight' => 2],
-    's3' => ['weight' => 0],
-    's4' => ['weight' => 8]
+    's2' => ['weight' => 0],
+    's3' => ['weight' => 2],
+    's4' => ['weight' => 6],
+    's5' => ['weight' => 0]
 ];
 
 $map1 = new KeyDistributor\WeightedNodeMap($nodeMap1);
