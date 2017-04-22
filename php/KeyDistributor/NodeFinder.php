@@ -3,13 +3,12 @@ namespace KeyDistributor;
 
 class NodeFinder 
 {
-    protected static $nodeMap;
-    protected static $distributor;
-    protected static $nodes;
+    protected $nodeMap;
+    protected $distributor;
+    protected $nodes;
 
-    public static function syncSlotWithNodes()
+    public function syncSlotWithNodes()
     {
-        self::$distributor->setNumOfSlots(count(self::$nodes));
+        $this->distributor->setNumOfSlots(count($this->nodes));
     }
-
 }

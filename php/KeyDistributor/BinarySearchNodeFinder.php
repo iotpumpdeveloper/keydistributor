@@ -3,16 +3,16 @@ Namespace KeyDistributor;
 
 class BinarySearchNodeFinder extends NodeFinder
 {
-    public static function setNodeMap($nodeMap)
+    public function setNodeMap($nodeMap)
     {
-        self::$nodeMap = $nodeMap; 
+        $this->nodeMap = $nodeMap; 
 
-        self::$distributor = new KeyDistributor();
+        $this->distributor = new KeyDistributor();
         $nodes = array();
 
         $curMinIndex = 0;
         $numOfNodes = 0;
-        foreach(self::$nodeMap as $name => $node) {
+        foreach($this->nodeMap as $name => $node) {
             $numOfNodes += $node['weight'];
             $node['name'] = $name; 
             $node['max_index'] = $curMinIndex + $node['weight'] - 1;
@@ -21,21 +21,21 @@ class BinarySearchNodeFinder extends NodeFinder
             $curMinIndex += $node['weight'];       
         }
 
-        self::$distributor->setNumOfNodes($numOfNodes);
-        self::$nodes = $nodes;
+        $this->distributor->setNumOfNodes($numOfNodes);
+        $this->nodes = $nodes;
     }
  
-    public static function findNodeForKey($key) 
+    public function findNodeForKey($key) 
     {
-        $slot = self::$distributor->getSlotForKey($key);
-        return self::findNodeForSlot($slot); 
+        $slot = $this->distributor->getSlotForKey($key);
+        return $this->findNodeForSlot($slot); 
     }
 
-    public static function findNodeForSlot($slot)
+    public function findNodeForSlot($slot)
     {
-        $numOfNodes = count(self::$nodeMap);
+        $numOfNodes = count($this->nodeMap);
 
-        $virtualIndex = self::$distributor->getNodeIndexForSlot($slot);
+        $virtualIndex = $this->distributor->getNodeIndexForSlot($slot);
         //now start binary search 
         $left = 0;
         $right = $numOfNodes;
@@ -45,13 +45,13 @@ class BinarySearchNodeFinder extends NodeFinder
             $realIndex = (int)(($left + $right)/2);
             $searchCounter ++;
             if ( 
-                ($virtualIndex <= self::$nodes[$realIndex]['max_index'] && $virtualIndex >= self::$nodes[$realIndex]['min_index']) 
+                ($virtualIndex <= $this->nodes[$realIndex]['max_index'] && $virtualIndex >= $this->nodes[$realIndex]['min_index']) 
             ) {
-                return self::$nodes[$realIndex]['name']; 
+                return $this->nodes[$realIndex]['name']; 
                 break;
-            }  else if ($virtualIndex > self::$nodes[$realIndex]['max_index']) {
+            }  else if ($virtualIndex > $this->nodes[$realIndex]['max_index']) {
                 $left = (int) (($left + $right) / 2);
-            } else if ($virtualIndex < self::$nodes[$realIndex]['min_index']) {
+            } else if ($virtualIndex < $this->nodes[$realIndex]['min_index']) {
                 $right = (int) (($right + $left) / 2);
             } 
         }

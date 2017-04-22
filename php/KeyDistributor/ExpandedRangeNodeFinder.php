@@ -3,30 +3,30 @@ namespace KeyDistributor;
 
 class ExpandedRangeNodeFinder extends NodeFinder
 {
-    public static function setNodeMap($nodeMap)
+    public function setNodeMap($nodeMap)
     {
-        self::$nodeMap = $nodeMap;
-        self::$distributor = new KeyDistributor();
+        $this->nodeMap = $nodeMap;
+        $this->distributor = new KeyDistributor();
         $actualNodes = array();
-        foreach(self::$nodeMap as $name => $node) {
+        foreach($this->nodeMap as $name => $node) {
             for ($i = 0; $i < $node['weight']; $i++) {
                 $actualNodes[] = $name;
             }
         }
 
-        self::$distributor->setNumOfNodes(count($actualNodes));
-        self::$nodes = $actualNodes;
+        $this->distributor->setNumOfNodes(count($actualNodes));
+        $this->nodes = $actualNodes;
     }
 
-    public static function findNodeForKey($key)
+    public function findNodeForKey($key)
     {
-        $virtualIndex = self::$distributor->getNodeIndexForKey($key);
-        return self::$nodes[$virtualIndex];
+        $virtualIndex = $this->distributor->getNodeIndexForKey($key);
+        return $this->nodes[$virtualIndex];
     }
 
-    public static function findNodeForSlot($slot)
+    public function findNodeForSlot($slot)
     {
-        $virtualIndex = self::$distributor->getNodeIndexForSlot($slot);
-        return self::$nodes[$virtualIndex];
+        $virtualIndex = $this->distributor->getNodeIndexForSlot($slot);
+        return $this->nodes[$virtualIndex];
     }
 }
